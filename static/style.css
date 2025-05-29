@@ -1,0 +1,21 @@
+body {
+    background: #f5f5f5;
+    min-height:100vh
+}
+.form-signin{
+    width: 100%;
+    max-width: 330px;
+    padding:15px;
+    margin: 0 auto;
+    text-align: center;
+
+}
+.main-signin{
+    display:flex;
+    align-items: center;
+    justify-content:center;
+    min-height:100vh;
+}
+.btn-signin{
+    margin-top:15px;
+}
