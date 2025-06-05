@@ -4,7 +4,8 @@ from models import User,Role, RolePermission, Permission, UserRole# This is impo
 
 #https://developer.atlassian.com/cloud/jira/platform/basic-auth-for-rest-apis/
 from functools import wraps
-from flask import g, request, jsonify
+from flask import g, request, jsonify, session, redirect, url_for
+
 
 def authenticate():
 
@@ -98,4 +99,13 @@ def permission_required(permission_name):
         return decorated_function
 
     return wrapper
-
+#session log in  for the UI
+def login_session_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        user = session.get('user')
+        if user is None:
+            return redirect(url_for('authentication.login')) #if  the usr is none the return to the login page
+        g.user = user # if the user is authenticated  then set global user request
+        return f(*args, **kwargs)
+    return decorated_function
