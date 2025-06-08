@@ -12,9 +12,6 @@ def login():
         password = request.form['password']
 
         user = User.query.filter_by(username=username, password=password).first()
-        print(user)
-        print(username)
-        print(password)
 
         if user:
             # TODO:redirect the user to dashboard
@@ -28,7 +25,7 @@ def login():
     return render_template('login.html', error=error)
 
 
-@authentication_bp.route('/logout', methods=['GET' ,'POST']) # post allows to receive  from the front end
+@authentication_bp.route('/logout', methods=['GET'])
 def logout():
     session.clear() #clear session
     return render_template('login.html')
