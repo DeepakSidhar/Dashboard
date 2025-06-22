@@ -107,5 +107,16 @@ def login_session_required(f):
         if user is None:
             return redirect(url_for('authentication.login')) #if  the usr is none the return to the login page
         g.user = user # if the user is authenticated  then set global user request
+        # TODO fetch permission from the DB
+        # Stringg : ACTION_ITEM
+        g.permissions = [
+            'VIEW_CHANGE',
+            'VIEW_INCIDENTS',
+            'VIEW_PROBLEMS',
+            'VIEW_SECURITY',
+            'VIEW_ADMIN',
+
+
+        ]
         return f(*args, **kwargs)
     return decorated_function
