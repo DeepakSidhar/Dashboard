@@ -2,7 +2,7 @@
 
 {% block main %}
 <h1> ADMIN Home!</h1>
-<a class="btn btn-primary my-3" href="{{url_for('admin.create_user') }}" role="button">Create User</a>
+<a class="btn btn-primary my-3" href="{{url_for('user.create_user') }}" role="button">Create User</a>
 <table class="table">
     <thead>
     <tr>
@@ -28,10 +28,10 @@
         <td>{{user.last_name}}</td>
       <td>{{user.roles | map(attribute='name') | join(', ') }}</td>
         <td>
-            <a href="{{ url_for('admin.edit_user', user_id=user.id) }}" type="button" class="btn btn-secondary btn-sm">Edit</a>
+            <a href="{{ url_for('user.edit_user', user_id=user.id) }}" type="button" class="btn btn-secondary btn-sm">Edit</a>
 
 
-            <form method="post" action="{{ url_for('admin.delete_user', user_id=user.id)}}" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete')">
+            <form method="post" action="{{ url_for('user.delete_user', user_id=user.id)}}" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete')">
                 <button type="submit" class="btn btn-danger btn-sm">Delete</button>
             </form>
 

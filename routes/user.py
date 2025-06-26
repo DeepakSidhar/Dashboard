@@ -4,9 +4,9 @@ from flask import Blueprint, jsonify, render_template, request, session, redirec
 from auth import login_required, role_required, login_session_required
 from models import User, UserRole, Role, db
 
-admin_bp = Blueprint('admin', __name__)
+user_bp = Blueprint('user', __name__)
 
-@admin_bp.route('/user', methods=['GET' ])
+@user_bp.route('/', methods=['GET'])
 @login_session_required
 def user_list():
     if 'VIEW_ADMIN' not in g.permissions:
@@ -18,7 +18,7 @@ def user_list():
     return render_template('user_list.html', users=users)
 
 
-@admin_bp.route('/user/create', methods=['GET', 'POST' ])
+@user_bp.route('/create', methods=['GET', 'POST'])
 @login_session_required
 def create_user():
     if 'VIEW_ADMIN' not in g.permissions:
@@ -55,7 +55,7 @@ def create_user():
                     user_role = UserRole(user_id = user.id, role_id=int(role_id))
                     db.session.add(user_role)
                 db.session.commit()
-                return redirect(url_for('admin.user_list'))
+                return redirect(url_for('user.user_list'))
         except Exception as e:
             db.session.rollback()
             print(e)
@@ -67,7 +67,7 @@ def create_user():
 
     return render_template('create_user.html', roles=roles)
 
-@admin_bp.route('/user/<int:user_id>/edit', methods=['GET', 'POST' ])
+@user_bp.route('/<int:user_id>/edit', methods=['GET', 'POST'])
 @login_session_required
 def edit_user(user_id):
     if 'VIEW_ADMIN' not in g.permissions:
@@ -105,7 +105,7 @@ def edit_user(user_id):
 
                 db.session.commit() # gets user.id
 
-                return redirect(url_for('admin.user_list'))
+                return redirect(url_for('user.user_list'))
 
         except Exception as e:
             db.session.rollback()
@@ -114,7 +114,7 @@ def edit_user(user_id):
 # if  using get it wil drop to this section
     return render_template('create_user.html',user=user, roles=roles)
 
-@admin_bp.route('/user/<int:user_id>/delete', methods=['POST'])
+@user_bp.route('/<int:user_id>/delete', methods=['POST'])
 @login_session_required
 def delete_user(user_id):
     if 'VIEW_ADMIN' not in g.permissions:
@@ -126,4 +126,4 @@ def delete_user(user_id):
     db.session.commit()# commit the change
 
 
-    return redirect(url_for('admin.user_list'))
+    return redirect(url_for('user.user_list'))
