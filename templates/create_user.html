@@ -1,31 +1,50 @@
 {% extends 'layout.html' %}
 {% block main %}
-<h1 xmlns="http://www.w3.org/1999/html"> Create User</h1>
+<h1 class="mb-4">
+    {% if user %}
+        Edit User
+    {%else %}
+        Create New User
+    {% endif %}
+</h1>
 {%if error %}
                 <div class="alert alert-danger" role="alert">{{ error }}</div>
 
 {% endif %}
 <form method="post">
     <label for="username">User Name:</label><br>
-    <input type="text" id="username" name="username" required><br>
+    <input type="text" id="username" name="username" required value="{{user.username if user else ''}}"><br>
     <label for="password">password:</label><br>
-    <input type="text" id="password" name="password" required><br>
+    <input type="password" id="password" name="password" required value="{{user.password if user else ''}}"><br>
     <label for="email">email:</label><br>
-    <input type="text" id="email" name="email" required><br>
+    <input type="text" id="email" name="email" required value="{{user.email_text if user else ''}}"><br>
     <label for="first_name">First name:</label><br>
-    <input type="text" id="first_name" name="first_name" required><br>
+    <input type="text" id="first_name" name="first_name" required value="{{user.first_name if user else ''}}"><br>
     <label for="last_name">Last name:</label><br>
-    <input type="text" id="last_name" name="last_name" required><br>
+    <input type="text" id="last_name" name="last_name" required value="{{user.last_name if user else ''}}"><br>
     <label class="form-label">Role:</label><br>
     {% for role in roles %}
     <div class="from-check form-check-inline">
-        <input class="form-check-input" type="checkbox" name="roles" value="{{role.id}}" id="role{{role.id}}">
+        <input
+                class="form-check-input"
+                type="checkbox"
+                name="roles"
+                value="{{role.id}}"
+                id="role{{role.id}}"
+                {% if user and role in user.roles%} checked {%endif%}
+        />
         <label class="form-check-labl" for="role{{role.id}}">{{role.name}}</label>
     </div>
     <br>
     {% endfor %}
 
-    <input type="submit" value="Submit">
+    <button type="submit" class="btn btn-success">
+        {% if user %}
+            Update User
+        {% else %}
+            Create User
+        {% endif %}
+    </button>
     <a  href="{{url_for('admin.admin_home') }}" class="btn btn-secondary" role="button">Cancel</a>
 
 
