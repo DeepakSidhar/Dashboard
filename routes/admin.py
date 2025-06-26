@@ -6,16 +6,16 @@ from models import User, UserRole, Role, db
 
 admin_bp = Blueprint('admin', __name__)
 
-@admin_bp.route('/', methods=['GET' ])
+@admin_bp.route('/user', methods=['GET' ])
 @login_session_required
-def admin_home():
+def user_list():
     if 'VIEW_ADMIN' not in g.permissions:
         return abort(403)
 
-    users  = User.query.all()#
+    users  = User.query.all()
 
 
-    return render_template('admin_home.html', users=users)
+    return render_template('user_list.html', users=users)
 
 
 @admin_bp.route('/user/create', methods=['GET', 'POST' ])
@@ -55,7 +55,7 @@ def create_user():
                     user_role = UserRole(user_id = user.id, role_id=int(role_id))
                     db.session.add(user_role)
                 db.session.commit()
-                return redirect(url_for('admin.admin_home'))
+                return redirect(url_for('admin.user_list'))
         except Exception as e:
             db.session.rollback()
             print(e)
@@ -105,7 +105,7 @@ def edit_user(user_id):
 
                 db.session.commit() # gets user.id
 
-                return redirect(url_for('admin.admin_home'))
+                return redirect(url_for('admin.user_list'))
 
         except Exception as e:
             db.session.rollback()
@@ -123,7 +123,7 @@ def delete_user(user_id):
     #Update user role
     UserRole.query.filter_by(user_id= user_id).delete()
     User.query.filter_by(id=user_id).delete()
-    db.session.commit()  # commit the change
+    db.session.commit()# commit the change
 
 
-    return redirect(url_for('admin.admin_home'))
+    return redirect(url_for('admin.user_list'))
