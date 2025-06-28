@@ -95,6 +95,7 @@ def edit_user(user_id):
                 user.first_name = first_name
                 user.last_name = last_name
                 user.password = password
+                user.updated_at = datetime.datetime.now(datetime.timezone.utc)
 
                 #update user role
                 UserRole.query.filter_by(user_id=user_id).delete()# we are deletig the user role from the database and then will update again with the new set
