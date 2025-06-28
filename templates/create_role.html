@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+{% block main %}
+<h1 class="mb-4">
+    {% if role %}
+        Edit role
+    {%else %}
+        Create New role
+    {% endif %}
+</h1>
+{%if error %}
+                <div class="alert alert-danger" role="alert">{{ error }}</div>
+
+{% endif %}
+<form method="post">
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" name="name" required value="{{role.name if role else ''}}"><br>
+    <label for="description">Description</label><br>
+    <input id="description" name="description" required value="{{role.description if role else ''}}"><br>
+
+
+    <button type="submit" class="btn btn-success">
+        {% if role %}
+            Update role
+        {% else %}
+            Create role
+        {% endif %}
+    </button>
+    <a  href="{{url_for('role.role_list') }}" class="btn btn-secondary" role="button">Cancel</a>
+
+
+
+
+</form>
+
+{% endblock %}

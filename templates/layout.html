@@ -67,6 +67,12 @@
                         </a>
                         </li>
                         {% endif %}
+                        {% if 'VIEW_ADMIN' in g.permissions %}
+                        <li class="nav-item"><a class="nav-link d-flex align-items-center gap-2"  href="{{url_for('role.role_list') }}">
+                            ADMIN:Role
+                        </a>
+                        </li>
+                        {% endif %}
 
                     </ul>
                     <hr class="my-3">

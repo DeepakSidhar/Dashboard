@@ -1,0 +1,47 @@
+{% extends 'layout.html' %}
+
+{% block main %}
+<h1> ADMIN - ROLE!</h1>
+<a class="btn btn-primary my-3" href="{{url_for('role.create_role') }}" role="button">Create Role</a>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for role in roles %}
+
+    <tr>
+        <th scope="row">{{role.id}}</th>
+        <td>{{role.name}}</td>
+        <td>{{role.description}}</td>
+
+
+
+        <td>
+            <a href="{{ url_for('role.edit_role', role_id=role.id) }}" type="button" class="btn btn-secondary btn-sm">Edit</a>
+
+
+            <form method="post" action="{{ url_for('role.delete_role', role_id=role.id)}}" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete')">
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+
+        </td>
+    </tr>
+    {% else %}
+    <tr>
+
+        <td colspan="4" class=text-center> No ROLES Found</td>
+
+    </tr>
+    {% endfor %}
+
+
+    </tbody>
+</table>
+
+{% endblock %}
