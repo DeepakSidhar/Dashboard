@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}
+{% block main %}
+<h1 class="mb-4">
+    {% if problem %}
+        Edit problem
+    {%else %}
+        Create New problem
+    {% endif %}
+</h1>
+{%if error %}
+                <div class="alert alert-danger" role="alert">{{ error }}</div>
+
+{% endif %}
+<form method="post">
+    <label for="title">title:</label><br>
+    <input type="text" id="title" name="title" required value="{{problem.title if problem else ''}}"><br>
+    <label for="description">Description</label><br>
+    <input id="description" name="description" required value="{{problem.description if problem else ''}}"><br>
+    <label for="status">Status</label><br>
+    <input id="status" name="status" required value="{{problem.status if problem else ''}}"><br>
+    <label for="priority">Priority</label><br>
+    <input id="priority" name="priority" required value="{{problem.priority if problem else ''}}"><br>
+    <label for="impact">Impact</label><br>
+    <input id="impact" name="impact" required value="{{problem.impact if problem else ''}}"><br>
+    <label for="assignee_id">Assignee ID</label><br>
+    <input id="assignee_id" name="assignee_id" required value="{{problem.assignee_id if problem else ''}}"><br>
+    <label for="created_id">Created ID</label><br>
+    <input id="created_id" name="created_id" required value="{{problem.created_id if problem else ''}}"><br>
+    <label for="root_cause">Root Cause</label><br>
+    <input id="root_cause" name="root_cause" required value="{{problem.root_cause if problem else ''}}"><br>
+    <label for="resolution">Resolution</label><br>
+    <input id="resolution" name="resolution" required value="{{problem.root_cause if problem else ''}}"><br>
+    <label for="incident_id">Incident ID</label><br>
+    <input id="incident_id" name="incident_id" required value="{{problem.incident_id if problem else ''}}"><br>
+
+    <button type="submit" class="btn btn-success">
+        {% if problem %}
+            Update problem
+        {% else %}
+            Create problem
+        {% endif %}
+    </button>
+    <a  href="{{url_for('problem.problem_list') }}" class="btn btn-secondary" role="button">Cancel</a>
+
+
+
+
+</form>
+
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'layout.html' %}
+
+{% block main %}
+<h1> ADMIN - Problem!</h1>
+<a class="btn btn-primary my-3" href="{{url_for('problem.create_problem') }}" role="button">Create Problem</a>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Title</th>
+        <th scope="col">Description</th>
+        <th scope="col">Status</th>
+        <th scope="col">Priority</th>
+        <th scope="col">Impact</th>
+        <th scope="col">Assignee_id</th>
+        <th scope="col">Created_id</th>
+        <th scope="col">Root Cause</th>
+        <th scope="col">Resolution</th>
+        <th scope="col">Incident ID</th>
+        <th scope="col">Created</th>
+        <th scope="col">Updated</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for problem in problems %}
+
+    <tr>
+        <th scope="row">{{problem.id}}</th>
+        <td>{{problem.title}}</td>
+        <td>{{problem.description}}</td>
+        <td>{{problem.status}}</td>
+        <td>{{problem.priority}}</td>
+        <td>{{problem.impact}}</td>
+        <td>{{problem.assignee_id}}</td>
+        <td>{{problem.created_id}}</td>
+        <td>{{problem.root_cause}}</td>
+        <td>{{problem.resolution}}</td>
+        <td>{{problem.created_at}}</td>
+        <td>{{problem.updated_at}}</td>
+
+
+
+        <td>
+            <a href="{{ url_for('problem.edit_problem', problem_id=problem.id) }}" type="button" class="btn btn-secondary btn-sm">Edit</a>
+
+
+            <form method="post" action="{{ url_for('problem.delete_problem', problem_id=problem.id)}}" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete')">
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+
+        </td>
+    </tr>
+    {% else %}
+    <tr>
+
+        <td colspan="12" class=text-center> No Problems Found</td>
+
+    </tr>
+    {% endfor %}
+
+
+    </tbody>
+</table>
+
+{% endblock %}

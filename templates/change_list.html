@@ -1,0 +1,67 @@
+{% extends 'layout.html' %}
+
+{% block main %}
+<h1> ADMIN - Change!</h1>
+<a class="btn btn-primary my-3" href="{{url_for('change.create_change') }}" role="button">Create Change</a>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Title</th>
+        <th scope="col">Description</th>
+        <th scope="col">Status</th>
+        <th scope="col">Priority</th>
+        <th scope="col">Impact</th>
+        <th scope="col">Change Type</th>
+        <th scope="col">requested By ID</th>
+        <th scope="col">proposed Time</th>
+        <th scope="col">executed Time</th>
+        <th scope="col">software ID</th>
+        <th scope="col">hardware ID</th>
+        <th scope="col">Updated</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for change in changes %}
+
+    <tr>
+        <th scope="row">{{change.id}}</th>
+        <td>{{change.title}}</td>
+        <td>{{change.description}}</td>
+        <td>{{change.status}}</td>
+        <td>{{change.priority}}</td>
+        <td>{{change.impact}}</td>
+        <td>{{change.change_type}}</td>
+        <td>{{change.requested_by_id}}</td>
+        <td>{{change.proposed_time}}</td>
+        <td>{{change.executed_time}}</td>
+        <td>{{change.software_id}}</td>
+        <td>{{change.hardware_id}}</td>
+        <td>{{change.updated_at}}</td>
+        <td>{{change.created_at}}</td>
+
+
+
+        <td>
+            <a href="{{ url_for('change.edit_change', change_id=change.id) }}" type="button" class="btn btn-secondary btn-sm">Edit</a>
+
+
+            <form method="post" action="{{ url_for('change.delete_change', change_id=change.id)}}" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete')">
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+
+        </td>
+    </tr>
+    {% else %}
+    <tr>
+
+        <td colspan="13" class=text-center> No Changes Found</td>
+
+    </tr>
+    {% endfor %}
+
+
+    </tbody>
+</table>
+
+{% endblock %}

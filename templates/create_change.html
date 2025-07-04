@@ -1,0 +1,53 @@
+{% extends 'layout.html' %}
+{% block main %}
+<h1 class="mb-4">
+    {% if change %}
+        Edit change
+    {%else %}
+        Create New change
+    {% endif %}
+</h1>
+{%if error %}
+                <div class="alert alert-danger" role="alert">{{ error }}</div>
+
+{% endif %}
+<form method="post">
+    <label for="title">Title:</label><br>
+    <input type="text" id="title" name="title" required value="{{change.title if change else ''}}"><br>
+    <label for="description">Description</label><br>
+    <input id="description" name="description" required value="{{change.description if change else ''}}"><br>
+    <label for="status">Status</label><br>
+    <input id="status" name="status" required value="{{change.status if change else ''}}"><br>
+    <label for="priority">Priority</label><br>
+    <input id="priority" name="priority" required value="{{change.priority if change else ''}}"><br>
+    <label for="impact">Impact</label><br>
+    <input id="impact" name="impact" required value="{{change.impact if change else ''}}"><br>
+    <label for="change_type">Change Type</label><br>
+    <input id="change_type" name="change_type" required value="{{change.change_type if change else ''}}"><br>
+    <label for="requested_by_id">Requested By ID</label><br>
+    <input id="requested_by_id" name="requested_by_id" required value="{{change.requested_by_id if change else ''}}"><br>
+    <label for="proposed_time">Proposed Timee</label><br>
+    <input id="proposed_time" name="proposed_time" required value="{{change.proposed_time if change else ''}}"><br>
+    <label for="executed_time">Executed Time</label><br>
+    <input id="executed_time" name="executed_time" required value="{{change.executed_time if change else ''}}"><br>
+    <label for="software_id">Software ID</label><br>
+    <input id="software_id" name="software_id" required value="{{change.software_id if change else ''}}"><br>
+    <label for="hardware_id">Hardware ID</label><br>
+    <input id="hardware_id" name="hardware_id" required value="{{change.hardware_id if change else ''}}"><br>
+
+
+    <button type="submit" class="btn btn-success">
+        {% if change %}
+            Update change
+        {% else %}
+            Create change
+        {% endif %}
+    </button>
+    <a  href="{{url_for('change.change_list') }}" class="btn btn-secondary" role="button">Cancel</a>
+
+
+
+
+</form>
+
+{% endblock %}

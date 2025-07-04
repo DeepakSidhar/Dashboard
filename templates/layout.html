@@ -73,6 +73,25 @@
                         </a>
                         </li>
                         {% endif %}
+                        {% if 'VIEW_ADMIN' in g.permissions %}
+                        <li class="nav-item"><a class="nav-link d-flex align-items-center gap-2"  href="{{url_for('problem.problem_list') }}">
+                            ADMIN:Problem
+                        </a>
+                        </li>
+                        {% endif %}
+                        {% if 'VIEW_ADMIN' in g.permissions %}
+                        <li class="nav-item"><a class="nav-link d-flex align-items-center gap-2"  href="{{url_for('incident.incident_list') }}">
+                            ADMIN:Incident
+                        </a>
+                        </li>
+                        {% endif %}
+                        {% if 'VIEW_ADMIN' in g.permissions %}
+                        <li class="nav-item"><a class="nav-link d-flex align-items-center gap-2"  href="{{url_for('change.change_list') }}">
+                            ADMIN:Change
+                        </a>
+                        </li>
+                        {% endif %}
+
 
                     </ul>
                     <hr class="my-3">
