@@ -12,4 +12,5 @@ from .role import Role # importing the User_Role table
 from .rolepermission import RolePermission # importing the role_permission table
 from .software import Software # importing the software table
 from .userrole  import UserRole # importing the User_Role table
+from .vulnerability import Vulnerability # importing the vulnerability table
 
