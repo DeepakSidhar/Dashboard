@@ -6,6 +6,7 @@ from .role import role_bp
 from .problem import problem_bp
 from .incident import incident_bp
 from .change import change_bp
+from.security import security_bp
 def register_routes(app):
     app.register_blueprint(example_bp)
     app.register_blueprint(authentication_bp)
@@ -15,3 +16,4 @@ def register_routes(app):
     app.register_blueprint(problem_bp, url_prefix='/admin/problem')
     app.register_blueprint(incident_bp, url_prefix='/admin/incident')
     app.register_blueprint(change_bp, url_prefix='/admin/change')
+    app.register_blueprint(security_bp, url_prefix='/security')

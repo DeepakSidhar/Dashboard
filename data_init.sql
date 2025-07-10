@@ -21,3 +21,7 @@ INSERT INTO public.software(
 	VALUES
 	(9999, 'Solarwinds', '1.0.1', 'Solarwinds', 9999, 'Active', '2022-05-01 00:00:00', '2026-05-01 00:00:00',  NOW(), NOW()),
 	(9998, 'Pycharm', '2024.1.1', 'JetBrains', 9999, 'Active', '2022-05-01 00:00:00', '2025-06-28 00:00:00',  NOW(), NOW());
+
+INSERT INTO public.vulnerability(
+	cve_id, published_date, last_modified_date, description, severity, cvss_score, vendor, product, version)
+	VALUES ('A_2025_19', NOW(), NOW(), 'Example created', 'CRITICAL', 1.01, 'JetBrains', 'Pycharm', '2024.1.1');
