@@ -42,11 +42,11 @@ def create_incident():
         hardware_id = None
         software_id = None
 
-        software = Software.query.get(hardware_software)
-        if software:
-            software_id = hardware_software
+        hardware_software_type, hardware_software_id = hardware_software.split(":")
+        if hardware_software_type == "SOFTWARE":
+            software_id = hardware_software_id
         else :
-            hardware_id = hardware_software
+            hardware_id = hardware_software_id
 
 
 

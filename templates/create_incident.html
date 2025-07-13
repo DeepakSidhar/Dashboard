@@ -27,7 +27,7 @@
             <optgroup label="Hardware">
                     {%for hardware in hardware_list%}
             <option
-            value="{{hardware.id}}"
+            value="HARDWARE:{{hardware.id}}"
             {% if incident and incident.hardware_id == hardware.id %} selected {% endif %}
         >
             {{hardware.name}}
@@ -38,7 +38,7 @@
                         <optgroup label="Software">
                     {%for software in software_list%}
             <option
-            value="{{software.id}}"
+            value="SOFTWARE:{{software.id}}"
             {% if incident and incident.software_id == software.id %} selected {% endif %}
         >
             {{software.name}} {{software.vendor}}
