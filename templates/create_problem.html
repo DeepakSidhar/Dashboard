@@ -32,6 +32,22 @@
     <input id="resolution" name="resolution" required value="{{problem.root_cause if problem else ''}}"><br>
     <label for="incident_id">Incident ID</label><br>
     <input id="incident_id" name="incident_id" required value="{{problem.incident_id if problem else ''}}"><br>
+        <label class="form-label">incident_id</label><br>
+    {% for incident in incidents %}
+    <div class="from-check form-check-inline">
+        <input
+                class="form-check-input"
+                type="checkbox"
+                name="incident_id"
+                value="{{incident.id}}"
+                id="incident{{incident.id}}"
+                {% if problem and incident.id in problem.incident_id%} checked {%endif%}
+        />
+        <label class="form-check-labl" for="incident{{incident.id}}">{{incident.name}}</label>
+    </div>
+    <br>
+    {% endfor %}
+
 
     <button type="submit" class="btn btn-success">
         {% if problem %}
