@@ -2,7 +2,7 @@ import datetime
 
 from flask import Blueprint,  render_template, request,  redirect, g, abort, url_for
 from auth import login_session_required
-from models import  db, IncidentManagement
+from models import db, IncidentManagement, User, Hardware, Software
 
 incident_bp = Blueprint('incident', __name__)
 
@@ -25,17 +25,28 @@ def create_incident():
         return abort(403)
 
     if request.method == 'POST':
-        title = request.form['name']
+        title = request.form['title']
         description = request.form['description']
         status = request.form['status']
         priority = request.form['priority']
         impact = request.form['impact']
         assignee_id = request.form['assignee_id']
         incident_type = request.form['incident_type']
-        software_id = request.form['software_id']
-        hardware_id = request.form['hardware_id']
+        hardware_software = request.form['hardware_software']
         reported_time = request.form['reported_time']
-        resolved_time = request.form['resolved_time']
+        resolved_time = request.form.get('resolved_time', None)
+        #this is resolving the problem  of an empty string. when resolved time is blanks.
+        if resolved_time == "":
+            resolved_time = None
+
+        hardware_id = None
+        software_id = None
+
+        software = Software.query.get(hardware_software)
+        if software:
+            software_id = hardware_software
+        else :
+            hardware_id = hardware_software
 
 
 
@@ -66,11 +77,14 @@ def create_incident():
             print(e)
 
 
+    users = User.query.all()
+    hardware_list = Hardware.query.all()
+    software_list = Software.query.all()
 
 
 
 
-    return render_template('create_incident.html')
+    return render_template('create_incident.html', users=users, hardware_list=hardware_list, software_list = software_list)
 
 @incident_bp.route('/<int:incident_id>/edit', methods=['GET', 'POST'])
 @login_session_required
@@ -80,7 +94,7 @@ def edit_incident(incident_id):
     incident = IncidentManagement.query.get_or_404(incident_id)
 
     if request.method == 'POST':
-        title = request.form['name']
+        title = request.form['title']
         description = request.form['description']
         status = request.form['status']
         priority = request.form['priority']

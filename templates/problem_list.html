@@ -1,8 +1,11 @@
 {% extends 'layout.html' %}
 
 {% block main %}
-<h1> ADMIN - Problem!</h1>
-<a class="btn btn-primary my-3" href="{{url_for('problem.create_problem') }}" role="button">Create Problem</a>
+<h1>Problem!</h1>
+{% if 'VIEW_ADMIN' in g.permissions %}
+        <a class="btn btn-primary my-3" href="{{url_for('problem.create_problem') }}" role="button">Create Problem</a>
+{% endif %}
+
 <table class="table">
     <thead>
     <tr>

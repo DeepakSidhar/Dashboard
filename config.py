@@ -3,3 +3,4 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = 'sdfsjdfkl;sfssfsdfsssdfsf'# secret key so only .py  can modify
     NVD_API_KEY = 'eb1fd457-a957-419d-a6ed-e8aab63bad85'
+    DEBUG = True

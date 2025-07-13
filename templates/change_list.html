@@ -1,8 +1,11 @@
 {% extends 'layout.html' %}
 
 {% block main %}
-<h1> ADMIN - Change!</h1>
-<a class="btn btn-primary my-3" href="{{url_for('change.create_change') }}" role="button">Create Change</a>
+<h1>Change!</h1>
+{% if 'VIEW_ADMIN' in g.permissions %}
+        <a class="btn btn-primary my-3" href="{{url_for('change.create_change') }}" role="button">Create Change</a>
+{% endif %}
+
 <table class="table">
     <thead>
     <tr>

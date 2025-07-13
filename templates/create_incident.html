@@ -17,23 +17,79 @@
     <label for="description">Description</label><br>
     <input id="description" name="description" required value="{{incident.description if incident else ''}}"><br>
     <label for="status">Status</label><br>
-    <input id="status" name="status" required value="{{incident.status if incident else ''}}"><br>
+    <select class="form-select" aria-label="Status" id="status" name="status">
+    <option value="OPEN" {% if incident and incident.status == 'OPEN' %} selected {% endif %}>Open</option>
+    <option value="RESOLVED  {% if incident and incident.status == 'RESOLVED' %} selected {% endif %} ">Resolved</option>
+    <option value="PROGRESS  {% if incident and incident.status == 'PROGRESS' %} selected {% endif %}">Progress</option>
+    </select>
+    <label for="Hardware_software">Hardware and Software</label><br>
+        <select class="form-select" aria-label="hardware_software" id="hardware_software" name="hardware_software">
+            <optgroup label="Hardware">
+                    {%for hardware in hardware_list%}
+            <option
+            value="{{hardware.id}}"
+            {% if incident and incident.hardware_id == hardware.id %} selected {% endif %}
+        >
+            {{hardware.name}}
+        </option>
+        {%endfor%}
+
+            </optgroup>
+                        <optgroup label="Software">
+                    {%for software in software_list%}
+            <option
+            value="{{software.id}}"
+            {% if incident and incident.software_id == software.id %} selected {% endif %}
+        >
+            {{software.name}} {{software.vendor}}
+        </option>
+        {%endfor%}
+
+            </optgroup>
+
+
+        </select>
+
     <label for="priority">Priority</label><br>
-    <input id="priority" name="priority" required value="{{incident.priority if incident else ''}}"><br>
+    <select class="form-select" aria-label="Priority" id="priority" name="priority">
+    <option value="HIGH" {% if incident and incident.priority == 'HIGH' %} selected {% endif %}>High</option>
+    <option value="MEDIUM  {% if incident and incident.priority == 'MEDIUM' %} selected {% endif %} ">Medium</option>
+    <option value="LOW  {% if incident and incident.priority == 'LOW' %} selected {% endif %}">Low</option>
+    </select>
+
+
     <label for="impact">Impact</label><br>
-    <input id="impact" name="impact" required value="{{incident.impact if incident else ''}}"><br>
-    <label for="assignee_id">Assignee ID</label><br>
-    <input id="assignee_id" name="assignee_id" required value="{{incident.assignee_id if incident else ''}}"><br>
+    <div class="form-text"> This shows the business impact of the incident</div>
+    <select class="form-select" aria-label="Impact" id="impact" name="impact" >
+    <option value="HIGH" {% if incident and incident.impact == 'HIGH' %} selected {% endif %}>High</option>
+    <option value="MEDIUM  {% if incident and incident.impact == 'MEDIUM' %} selected {% endif %} ">Medium</option>
+    <option value="LOW  {% if incident and incident.impact == 'LOW' %} selected {% endif %}">Low</option>
+    </select>
+
+    <label for="assignee_id">Assignee</label><br>
+    <select class="form-select mb-4" aria-label="Assignee" id="assignee_id" name="assignee_id">
+        {% for user in users %}
+        <option
+            value="{{ user.id }}"
+            {% if incident and incident.assignee_id == user.id %} selected {% endif %}
+        >
+            {{ user.first_name }} {{ user.last_name }} ({{ user.email_text }})
+        </option>
+        {% endfor %}
+    </select>
+
     <label for="incident_type">Incident Type</label><br>
-    <input id="incident_type" name="incident_type" required value="{{incident.incident_type if incident else ''}}"><br>
-    <label for="software_id">Root Cause</label><br>
-    <input id="software_id" name="Software ID" required value="{{incident.software_id if incident else ''}}"><br>
-    <label for="hardware_id">Hardware ID</label><br>
-    <input id="hardware_id" name="hardware_id" required value="{{incident.hardware_id if incident else ''}}"><br>
+    <select class="form-select" aria-label="Incident_Type" id="incident_type" name="incident_type">
+    <option value="HIGH" {% if incident and incident.impact == 'HIGH' %} selected {% endif %}>High</option>
+    <option value="MEDIUM  {% if incident and incident.impact == 'MEDIUM' %} selected {% endif %} ">Medium</option>
+    <option value="LOW  {% if incident and incident.impact == 'LOW' %} selected {% endif %}">Low</option>
+    </select>
+
+
     <label for="reported_time">Reported Time</label><br>
-    <input id="reported_time" name="reported_time" required value="{{incident.reported_time if incident else ''}}"><br>
+    <input id="reported_time" type="datetime-local" name="reported_time" required value="{{incident.reported_time if incident else None}}"><br>
     <label for="resolved_time">Resolved Time</label><br>
-    <input id="resolved_time" name="resolved_time" required value="{{incident.resolved_time if incident else ''}}"><br>
+    <input id="resolved_time" type="datetime-local"  name="resolved_time"  value="{{incident.resolved_time if incident else None}}"><br>
 
 
     <button type="submit" class="btn btn-success">

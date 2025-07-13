@@ -1,11 +1,14 @@
 {% extends 'layout.html' %}
 
 {% block main %}
-<h1> ADMIN - Incident!</h1>
-<a class="btn btn-primary my-3" href="{{url_for('incident.create_incident') }}" role="button">Create Incident</a>
+<h1>Incident!</h1>
+{% if 'VIEW_ADMIN' in g.permissions %}
+        <a class="btn btn-primary my-3" href="{{url_for('incident.create_incident') }}" role="button">Create Incident</a>
+{% endif %}
 <table class="table">
     <thead>
     <tr>
+        <th scope="col">Incident ID</th>
         <th scope="col">Title</th>
         <th scope="col">Description</th>
         <th scope="col">Status</th>
@@ -15,10 +18,10 @@
         <th scope="col">Incident Type</th>
         <th scope="col">Software ID</th>
         <th scope="col">Hardware ID</th>
-        <th scope="col">Incident ID</th>
         <th scope="col">Reported Time</th>
         <th scope="col">Resolved Time</th>
         <th scope="col">Updated</th>
+        <th scope="col">Action</th>
 
     </tr>
     </thead>
@@ -55,7 +58,7 @@
     {% else %}
     <tr>
 
-        <td colspan="12" class=text-center> No Incidents Found</td>
+        <td colspan="14" class=text-center> No Incidents Found</td>
 
     </tr>
     {% endfor %}

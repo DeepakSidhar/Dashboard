@@ -36,31 +36,6 @@
                 </div>
                 <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
                     <ul class="nav flex-column">
-                        {% if 'VIEW_CHANGE' in g.permissions %}
-                        <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center gap-2" href="#">
-                                CHANGE
-                            </a></li>
-                         {% endif %}
-                        {% if 'VIEW_INCIDENTS' in g.permissions %}
-                        <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center gap-2" href="#">
-                                INCIDENTS
-                            </a>
-                        </li>
-                        {% endif %}
-                         {% if 'VIEW_PROBLEMS' in g.permissions %}
-                        <li class="nav-item"><a class="nav-link d-flex align-items-center gap-2" href="#">
-                            PROBLEMS
-                        </a>
-                        </li>
-                        {% endif %}
-                        {% if 'VIEW_SECURITY' in g.permissions %}
-                        <li class="nav-item"><a class="nav-link d-flex align-items-center gap-2" href="{{url_for('security.vulnerabilty_list') }}">
-                            SECUIRTY
-                        </a>
-                        </li>
-                        {% endif %}
                         {% if 'VIEW_ADMIN' in g.permissions %}
                         <li class="nav-item"><a class="nav-link d-flex align-items-center gap-2"  href="{{url_for('user.user_list') }}">
                             ADMIN:User
@@ -75,19 +50,25 @@
                         {% endif %}
                         {% if 'VIEW_ADMIN' in g.permissions %}
                         <li class="nav-item"><a class="nav-link d-flex align-items-center gap-2"  href="{{url_for('problem.problem_list') }}">
-                            ADMIN:Problem
+                            Problem
                         </a>
                         </li>
                         {% endif %}
                         {% if 'VIEW_ADMIN' in g.permissions %}
                         <li class="nav-item"><a class="nav-link d-flex align-items-center gap-2"  href="{{url_for('incident.incident_list') }}">
-                            ADMIN:Incident
+                            Incident
                         </a>
                         </li>
                         {% endif %}
                         {% if 'VIEW_ADMIN' in g.permissions %}
                         <li class="nav-item"><a class="nav-link d-flex align-items-center gap-2"  href="{{url_for('change.change_list') }}">
-                            ADMIN:Change
+                            Change
+                        </a>
+                        </li>
+                        {% endif %}
+                        {% if 'VIEW_SECURITY' in g.permissions %}
+                        <li class="nav-item"><a class="nav-link d-flex align-items-center gap-2" href="{{url_for('security.vulnerabilty_list') }}">
+                            SECUIRTY
                         </a>
                         </li>
                         {% endif %}

@@ -2,7 +2,7 @@ import datetime
 
 from flask import Blueprint,  render_template, request,  redirect, g, abort, url_for
 from auth import login_session_required
-from models import ProblemManagement, db
+from models import ProblemManagement, db, IncidentManagement
 
 problem_bp = Blueprint('problem', __name__)
 
@@ -16,6 +16,10 @@ def problem_list():
 
 
     return render_template('problem_list.html', problems=problems)
+
+
+class Incident:
+    pass
 
 
 @problem_bp.route('/create', methods=['GET', 'POST'])
@@ -65,10 +69,14 @@ def create_problem():
 
 
 
+    incidents = IncidentManagement.query.all()
 
 
 
-    return render_template('create_problem.html')
+
+
+
+    return render_template('create_problem.html' , incidents=incidents )
 
 @problem_bp.route('/<int:problem_id>/edit', methods=['GET', 'POST'])
 @login_session_required
