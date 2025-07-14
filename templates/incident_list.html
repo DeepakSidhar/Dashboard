@@ -14,10 +14,10 @@
         <th scope="col">Status</th>
         <th scope="col">Priority</th>
         <th scope="col">Impact</th>
-        <th scope="col">Assignee_id</th>
+        <th scope="col">Assignee</th>
         <th scope="col">Incident Type</th>
-        <th scope="col">Software ID</th>
-        <th scope="col">Hardware ID</th>
+        <th scope="col">Software</th>
+        <th scope="col">Hardware</th>
         <th scope="col">Reported Time</th>
         <th scope="col">Resolved Time</th>
         <th scope="col">Updated</th>
@@ -35,10 +35,10 @@
         <td>{{incident.status}}</td>
         <td>{{incident.priority}}</td>
         <td>{{incident.impact}}</td>
-        <td>{{incident.assignee_id}}</td>
+        <td>{{incident.user.first_name}} {{incident.user.last_name}}</td>
         <td>{{incident.incident_type}}</td>
-        <td>{{incident.software_id}}</td>
-        <td>{{incident.hardware_id}}</td>
+        <td>{{incident.software.name if incident.software_id else ''}}</td>
+        <td>{{incident.hardware.name if incident.hardware_id else ''}}</td>
         <td>{{incident.reported_time}}</td>
         <td>{{incident.resolved_time}}</td>
         <td>{{incident.updated_at}}</td>

@@ -38,7 +38,7 @@
 
 
         <td>
-            <a href="#" type="button" class="btn btn-secondary btn-sm">Create Incident</a>
+            <a href="{{url_for('incident.create_incident') }}?prefill_title={{vulnerability.cve_id}}&prefill_description={{vulnerability.description}}&prefill_software_id={{software.id}}" type="button" class="btn btn-secondary btn-sm">Create Incident</a>
 
 
         </td>

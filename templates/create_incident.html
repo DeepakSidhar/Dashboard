@@ -13,15 +13,10 @@
 {% endif %}
 <form method="post">
     <label for="title">Title:</label><br>
-    <input type="text" id="title" name="title" required value="{{incident.title if incident else ''}}"><br>
+    <input type="text" id="title" name="title" required value="{{incident.title if incident else prefill.title}}"><br>
     <label for="description">Description</label><br>
-    <input id="description" name="description" required value="{{incident.description if incident else ''}}"><br>
-    <label for="status">Status</label><br>
-    <select class="form-select" aria-label="Status" id="status" name="status">
-    <option value="OPEN" {% if incident and incident.status == 'OPEN' %} selected {% endif %}>Open</option>
-    <option value="RESOLVED  {% if incident and incident.status == 'RESOLVED' %} selected {% endif %} ">Resolved</option>
-    <option value="PROGRESS  {% if incident and incident.status == 'PROGRESS' %} selected {% endif %}">Progress</option>
-    </select>
+    <input id="description" name="description" required value="{{incident.description if incident else  prefill.description}}"><br>
+
     <label for="Hardware_software">Hardware and Software</label><br>
         <select class="form-select" aria-label="hardware_software" id="hardware_software" name="hardware_software">
             <optgroup label="Hardware">
@@ -39,9 +34,11 @@
                     {%for software in software_list%}
             <option
             value="SOFTWARE:{{software.id}}"
-            {% if incident and incident.software_id == software.id %} selected {% endif %}
+            {% if (incident and incident.software_id == software.id) or (prefill.software_id == software.id) %} selected {% endif %}
         >
             {{software.name}} {{software.vendor}}
+
+
         </option>
         {%endfor%}
 
@@ -49,7 +46,12 @@
 
 
         </select>
-
+    <label for="status">Status</label><br>
+    <select class="form-select" aria-label="Status" id="status" name="status">
+    <option value="OPEN" {% if incident and incident.status == 'OPEN' %} selected {% endif %}>Open</option>
+    <option value="RESOLVED  {% if incident and incident.status == 'RESOLVED' %} selected {% endif %} ">Resolved</option>
+    <option value="PROGRESS  {% if incident and incident.status == 'PROGRESS' %} selected {% endif %}">Progress</option>
+    </select>
     <label for="priority">Priority</label><br>
     <select class="form-select" aria-label="Priority" id="priority" name="priority">
     <option value="HIGH" {% if incident and incident.priority == 'HIGH' %} selected {% endif %}>High</option>

@@ -12,7 +12,13 @@ def incident_list():
     if 'VIEW_ADMIN' not in g.permissions:
         return abort(403)
 
-    incidents  = IncidentManagement.query.all()
+    incidents  = (
+        IncidentManagement.query
+        .join(User)
+        .outerjoin(Hardware)
+        .outerjoin(Software)
+        .all()
+    )
 
 
     return render_template('incident_list.html', incidents=incidents)
@@ -80,11 +86,25 @@ def create_incident():
     users = User.query.all()
     hardware_list = Hardware.query.all()
     software_list = Software.query.all()
+    prefill = {
+        "title":request.args.get("prefill_title"),
+        "description": request.args.get("prefill_description"),
+        "software_id": request.args.get("prefill_software_id", type=int)
+    }
 
 
 
 
-    return render_template('create_incident.html', users=users, hardware_list=hardware_list, software_list = software_list)
+    return render_template(
+        'create_incident.html',
+        users=users,
+        hardware_list=hardware_list,
+        software_list = software_list,
+        prefill=prefill
+
+
+    )
+
 
 @incident_bp.route('/<int:incident_id>/edit', methods=['GET', 'POST'])
 @login_session_required
