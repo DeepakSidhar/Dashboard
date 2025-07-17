@@ -34,7 +34,7 @@
                     {%for software in software_list%}
             <option
             value="SOFTWARE:{{software.id}}"
-            {% if (incident and incident.software_id == software.id) or (prefill.software_id == software.id) %} selected {% endif %}
+            {% if (incident and incident.software_id == software.id) or (prefil and prefill.software_id == software.id) %} selected {% endif %}
         >
             {{software.name}} {{software.vendor}}
 

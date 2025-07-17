@@ -121,10 +121,22 @@ def edit_incident(incident_id):
         impact = request.form['impact']
         assignee_id = request.form['assignee_id']
         incident_type = request.form['incident_type']
-        software_id = request.form['software_id']
-        hardware_id = request.form['hardware_id']
+        hardware_software = request.form['hardware_software']
         reported_time = request.form['reported_time']
-        resolved_time = request.form['resolved_time']
+        resolved_time = request.form.get('resolved_time', None)
+        # this is resolving the problem  of an empty string. when resolved time is blanks.
+        if resolved_time == "":
+            resolved_time = None
+
+        hardware_id = None
+        software_id = None
+
+        hardware_software_type, hardware_software_id = hardware_software.split(":")
+        if hardware_software_type == "SOFTWARE":
+            software_id = hardware_software_id
+        else:
+            hardware_id = hardware_software_id
+
         # DB transaction
         try:
             with db.session.begin(nested=True):# Due to two transactions so need the nested  to allow the second.
@@ -142,6 +154,7 @@ def edit_incident(incident_id):
                 incident.resolved_time = resolved_time,
                 incident.updated_at = datetime.datetime.now(datetime.timezone.utc)
 
+
                 db.session.commit()
 
                 return redirect(url_for('incident.incident_list'))
@@ -150,8 +163,21 @@ def edit_incident(incident_id):
             db.session.rollback()
             print('Could not find the incident ' + str(incident_id))
             print(e)
+
+    users = User.query.all()
+    hardware_list = Hardware.query.all()
+    software_list = Software.query.all()
+
 # if  using get it wil drop to this section
-    return render_template('create_incident.html',incident=incident)
+   # return render_template('create_incident.html',incident=incident_type)
+    return render_template(
+        'create_incident.html',
+        users=users,
+        hardware_list=hardware_list,
+        software_list = software_list,
+        incident = incident
+
+    )
 
 @incident_bp.route('/<int:incident_id>/delete', methods=['POST'])
 @login_session_required
