@@ -16,7 +16,7 @@
     <input type="text" id="title" name="title" required value="{{incident.title if incident else prefill.title}}"><br>
     <label for="description">Description</label><br>
     <input id="description" name="description" required value="{{incident.description if incident else  prefill.description}}"><br>
-    <input class="d-none" type="text" id="cve_id" name="cve_id" value="{{prefill.cve_id if prefill.cve_id else ''}}"><br>
+    <input class="d-none" type="text" id="cve_id" name="cve_id" value="{{prefill.cve_id if prefill and prefill.cve_id else ''}}"><br>
     <label for="Hardware_software">Hardware and Software</label><br>
         <select class="form-select" aria-label="hardware_software" id="hardware_software" name="hardware_software">
             <optgroup label="Hardware">
