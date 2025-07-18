@@ -41,7 +41,7 @@
             {% if incident %}
              <a href="{{url_for('incident.edit_incident', incident_id=incident.id) }}" type="button" class="btn btn-outline-secondary btn-sm">EDIT Incident</a>
             {% else %}
-            <a href="{{url_for('incident.create_incident') }}?prefill_title={{vulnerability.cve_id}}&prefill_description={{vulnerability.description}}&prefill_software_id={{software.id}}" type="button" class="btn btn-secondary btn-sm">Create Incident</a>
+            <a href="{{url_for('incident.create_incident') }}?cve_id={{vulnerability.cve_id}}&prefill_software_id={{software.id}}" type="button" class="btn btn-secondary btn-sm">Create Incident</a>
             {% endif %}
 
 

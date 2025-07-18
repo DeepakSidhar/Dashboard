@@ -2,7 +2,7 @@ import datetime
 
 from flask import Blueprint,  render_template, request,  redirect, g, abort, url_for
 from auth import login_session_required
-from models import db, IncidentManagement, User, Hardware, Software
+from models import db, IncidentManagement, User, Hardware, Software, Vulnerability
 
 incident_bp = Blueprint('incident', __name__)
 
@@ -12,7 +12,7 @@ def incident_list():
     if 'VIEW_ADMIN' not in g.permissions:
         return abort(403)
 
-    incidents  = (
+    incidents = (
         IncidentManagement.query
         .join(User)
         .outerjoin(Hardware)
@@ -41,6 +41,7 @@ def create_incident():
         hardware_software = request.form['hardware_software']
         reported_time = request.form['reported_time']
         resolved_time = request.form.get('resolved_time', None)
+        cve_id = request.form.get('cve_id')
         #this is resolving the problem  of an empty string. when resolved time is blanks.
         if resolved_time == "":
             resolved_time = None
@@ -73,6 +74,7 @@ def create_incident():
                     resolved_time = resolved_time,
                     created_at = datetime.datetime.now(datetime.timezone.utc),
                     updated_at =datetime.datetime.now(datetime.timezone.utc),
+                    cve_id=cve_id,
                 )
                 db.session.add(incident)
 
@@ -86,10 +88,13 @@ def create_incident():
     users = User.query.all()
     hardware_list = Hardware.query.all()
     software_list = Software.query.all()
+    cve_id = request.args.get('cve_id')
+    vulnerability = Vulnerability.query.get(cve_id)
     prefill = {
-        "title":request.args.get("prefill_title"),
-        "description": request.args.get("prefill_description"),
-        "software_id": request.args.get("prefill_software_id", type=int)
+        "title": vulnerability.cve_id if vulnerability else None,
+        "description": vulnerability.description if vulnerability else None,
+        "software_id": request.args.get("prefill_software_id", type=int),
+        "cve_id": cve_id
     }
 
 

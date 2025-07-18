@@ -17,6 +17,7 @@ class IncidentManagement(db.Model): # user class is a subclass of  db.Model
     resolved_time = db.Column(db.DateTime)
     created_at = db.Column(db.DateTime, default=datetime.datetime.now(datetime.timezone.utc), nullable=False)
     updated_at = db.Column(db.DateTime, default=datetime.datetime.now(datetime.timezone.utc), nullable=False)
+    cve_id = db.Column(db.String(80), db.ForeignKey("vulnerability.cve_id"))
 
     user = db.relationship('User')
     hardware = db.relationship('Hardware')

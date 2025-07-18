@@ -9,7 +9,7 @@ security_bp = Blueprint('security', __name__)
 def vulnerabilty_list():
     if 'VIEW_SECURITY' not in g.permissions:
         return abort(403)
-# Joiuning the Software- Hardware and Vulnerabilty table
+# Joining the Software- Hardware and Vulnerabilty table
     results = (
         db.session.query(Software, Hardware, Vulnerability, IncidentManagement)
         .join(
@@ -24,7 +24,7 @@ def vulnerabilty_list():
         )
         .outerjoin(
             IncidentManagement,
-            IncidentManagement.software_id == Software.id
+            IncidentManagement.cve_id == Vulnerability.cve_id
         )
         .order_by(
             db.case(
