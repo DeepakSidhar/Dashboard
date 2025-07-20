@@ -48,19 +48,19 @@
                         </a>
                         </li>
                         {% endif %}
-                        {% if 'VIEW_ADMIN' in g.permissions %}
+                        {% if 'VIEW_PROBLEMS' in g.permissions %}
                         <li class="nav-item"><a class="nav-link d-flex align-items-center gap-2"  href="{{url_for('problem.problem_list') }}">
                             Problem
                         </a>
                         </li>
                         {% endif %}
-                        {% if 'VIEW_ADMIN' in g.permissions %}
+                        {% if 'VIEW_INCIDENTS' in g.permissions %}
                         <li class="nav-item"><a class="nav-link d-flex align-items-center gap-2"  href="{{url_for('incident.incident_list') }}">
                             Incident
                         </a>
                         </li>
                         {% endif %}
-                        {% if 'VIEW_ADMIN' in g.permissions %}
+                        {% if 'VIEW_CHANGE' in g.permissions %}
                         <li class="nav-item"><a class="nav-link d-flex align-items-center gap-2"  href="{{url_for('change.change_list') }}">
                             Change
                         </a>
@@ -68,12 +68,10 @@
                         {% endif %}
                         {% if 'VIEW_SECURITY' in g.permissions %}
                         <li class="nav-item"><a class="nav-link d-flex align-items-center gap-2" href="{{url_for('security.vulnerabilty_list') }}">
-                            SECUIRTY
+                            SECURITY
                         </a>
                         </li>
                         {% endif %}
-
-
 
                     </ul>
                     <hr class="my-3">

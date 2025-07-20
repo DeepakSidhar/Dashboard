@@ -2,7 +2,7 @@ import datetime
 
 from flask import Blueprint,  render_template, request,  redirect, g, abort, url_for
 from auth import login_session_required
-from models import  Role, db
+from models import Role, db, Permission, RolePermission
 
 role_bp = Blueprint('role', __name__)
 
@@ -15,7 +15,7 @@ def role_list():
     roles  = Role.query.all()
 
 
-    return render_template('role_list.html', roles=roles)
+    return render_template('role_list.html', roles=roles, selected_permission=[])
 
 
 @role_bp.route('/create', methods=['GET', 'POST'])
@@ -27,6 +27,11 @@ def create_role():
     if request.method == 'POST':
         name = request.form['name']
         description = request.form['description']
+        permission_ids = request.form.getlist('permissions')
+
+        if not permission_ids:
+            return redirect(url_for('role.create_role'))
+
 
 
         # DB transaction
@@ -39,6 +44,13 @@ def create_role():
                     updated_at =datetime.datetime.now(datetime.timezone.utc),
                 )
                 db.session.add(role)
+                db.session.flush()
+                for pid in permission_ids:
+                    role_permission = RolePermission(
+                        role_id=role.id,
+                        permission_id= pid
+                    )
+                    db.session.add(role_permission)
 
                 db.session.commit()
                 return redirect(url_for('role.role_list'))
@@ -50,8 +62,9 @@ def create_role():
 
 
 
+    all_permissions = Permission.query.all()
 
-    return render_template('create_role.html')
+    return render_template('create_role.html' , all_permissions=all_permissions)
 
 @role_bp.route('/<int:role_id>/edit', methods=['GET', 'POST'])
 @login_session_required
@@ -59,10 +72,23 @@ def edit_role(role_id):
     if 'VIEW_ADMIN' not in g.permissions:
         return abort(403)
     role = Role.query.get_or_404(role_id)
+    all_permissions = Permission.query.all()
+    selected_permission = (RolePermission.query
+                           .with_entities(RolePermission.permission_id)
+                           .filter_by(role_id=role.id).all())
+    #  as we have selected a coloumn we are returned a list within a list which is causing an error
+    print(f"Selected permission() not flat  : {selected_permission}")
+    #creating a flattened list
+    selected_permission = [pid for (pid,) in selected_permission]
 
     if request.method == 'POST':
         name = request.form['name']
         description = request.form['description']
+        permission_ids = request.form.getlist('permissions')
+
+        if not permission_ids:
+            return redirect(url_for('role.edit_role', role_id=role_id))
+
 
         # DB transaction
         try:
@@ -72,16 +98,27 @@ def edit_role(role_id):
                 role.description = description
                 role.updated_at = datetime.datetime.now(datetime.timezone.utc)
 
-                db.session.commit() # gets user.id
+                #update permission
+                RolePermission.query.filter_by(role_id=role.id).delete()
+                for pid in permission_ids:
+                    role_permission = RolePermission(
+                        role_id=role.id,
+                        permission_id=pid
+                    )
+                    db.session.add(role_permission)
+
+                db.session.commit()
 
                 return redirect(url_for('role.role_list'))
-
         except Exception as e:
             db.session.rollback()
             print('Could not find the role ' + str(role_id))
             print(e)
-# if  using get it wil drop to this section
-    return render_template('create_role.html',role=role)
+# if using get it wil drop to this section
+    return render_template('create_role.html',
+                           role=role,
+                           all_permissions=all_permissions,
+                           selected_permission=selected_permission)
 
 @role_bp.route('/<int:role_id>/delete', methods=['POST'])
 @login_session_required

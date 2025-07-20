@@ -25,3 +25,21 @@ INSERT INTO public.software(
 INSERT INTO public.vulnerability(
 	cve_id, published_date, last_modified_date, description, severity, cvss_score, vendor, product, version)
 	VALUES ('A_2025_19', NOW(), NOW(), 'Example created', 'CRITICAL', 1.01, 'JetBrains', 'Pycharm', '2024.1.1');
+
+INSERT INTO public.permission(
+	id, name, description, created_at, updated_at)
+	VALUES
+	(9999, 'VIEW_CHANGE', 'View Change ', NOW(), NOW()),
+	 (9998, 'VIEW_INCIDENTS', 'View Incidents ', NOW(), NOW()),
+	 (9997, 'VIEW_PROBLEMS', 'View Problems ', NOW(), NOW()),
+	 (9996, 'VIEW_SECURITY', 'View Security ', NOW(), NOW()),
+	 (9995, 'VIEW_ADMIN', 'View Admin Operations  ', NOW(), NOW());
+
+INSERT INTO public.role_permission(
+	permission_id, created_at, updated_at, role_id)
+	 VALUES
+	 (9999, NOW(),NOW(), 9999),
+	 (9998, NOW(),NOW(), 9999),
+	 (9997, NOW(),NOW(), 9999),
+	 (9996, NOW(),NOW(), 9999),
+	 (9995, NOW(),NOW(), 9999);

@@ -9,7 +9,7 @@ incident_bp = Blueprint('incident', __name__)
 @incident_bp.route('/', methods=['GET'])
 @login_session_required
 def incident_list():
-    if 'VIEW_ADMIN' not in g.permissions:
+    if 'VIEW_INCIDENTS' not in g.permissions:
         return abort(403)
 
     incidents = (
@@ -27,7 +27,7 @@ def incident_list():
 @incident_bp.route('/create', methods=['GET', 'POST'])
 @login_session_required
 def create_incident():
-    if 'VIEW_ADMIN' not in g.permissions:
+    if 'VIEW_INCIDENTS' not in g.permissions:
         return abort(403)
 
     if request.method == 'POST':
@@ -114,7 +114,7 @@ def create_incident():
 @incident_bp.route('/<int:incident_id>/edit', methods=['GET', 'POST'])
 @login_session_required
 def edit_incident(incident_id):
-    if 'VIEW_ADMIN' not in g.permissions:
+    if 'VIEW_INCIDENTS' not in g.permissions:
         return abort(403)
     incident = IncidentManagement.query.get_or_404(incident_id)
 
@@ -187,7 +187,7 @@ def edit_incident(incident_id):
 @incident_bp.route('/<int:incident_id>/delete', methods=['POST'])
 @login_session_required
 def delete_incident(incident_id):
-    if 'VIEW_ADMIN' not in g.permissions:
+    if 'VIEW_INCIDENTS' not in g.permissions:
         return abort(403)
 
     #Update incident

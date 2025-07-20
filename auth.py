@@ -86,7 +86,7 @@ def permission_required(permission_name):
                 .join(RolePermission, RolePermission.permission_id == Permission.id)\
                 .join(UserRole, RolePermission.role_id == UserRole.role_id)\
                 .filter(UserRole.user_id == g.user.id)\
-                .all()#
+                .all()
 
 
 
@@ -107,16 +107,27 @@ def login_session_required(f):
         if user is None:
             return redirect(url_for('authentication.login')) #if  the usr is none the return to the login page
         g.user = user # if the user is authenticated  then set global user request
-        # TODO fetch permission from the DB
-        # Stringg : ACTION_ITEM
-        g.permissions = [
+        print(f" user permission {g.user}")
+        permission = (
+            Permission.query
+            .with_entities(Permission.name)
+            .join(RolePermission, RolePermission.permission_id == Permission.id)
+            .join(UserRole, RolePermission.role_id == UserRole.role_id)
+            .filter(UserRole.user_id == user['id'])
+        )
+        # String : ACTION_ITEM
+        g.permissions = [pid for (pid,) in permission]
+        print(f" FLATTEREENTED  permission {g.permissions}")
+        """
+           
+            [
             'VIEW_CHANGE',
             'VIEW_INCIDENTS',
             'VIEW_PROBLEMS',
             'VIEW_SECURITY',
             'VIEW_ADMIN',
 
-
         ]
+         """
         return f(*args, **kwargs)
     return decorated_function

@@ -21,7 +21,7 @@ def change_list():
 @change_bp.route('/create', methods=['GET', 'POST'])
 @login_session_required
 def create_change():
-    if 'VIEW_ADMIN' not in g.permissions:
+    if 'VIEW_CHANGE' not in g.permissions:
         return abort(403)
 
     if request.method == 'POST':
