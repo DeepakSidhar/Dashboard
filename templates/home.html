@@ -14,10 +14,19 @@
                 </div>
             </div>
 
-            <h2>System Summary</h2>
-            <div style="width: 800px;">
-                <canvas id="secuirty-summary"></canvas>
-            </div>
+<h2 style="margin-bottom: 8px; text-align: center">System Summary</h2>
+
+<div style="width: 800px;">
+    <h3>Security Vulnerabilities</h3>
+    <canvas id="secuirty-summary"></canvas>
+</div>
+
+
+<div style="width: 800px;">
+    <h3>Incident Summary</h3>
+    <canvas id="incident-summary"></canvas>
+</div>
+
 
 {% endblock %}
 
@@ -25,10 +34,10 @@
 
 (async function() {
   const data = [
-    { type: 'Critical', count: {{summary['CRITICAL'] if summary['CRITICAL'] else 0}} },
-    { type: 'High', count:  {{summary['HIGH'] if summary['HIGH'] else 0}} },
-    { type: 'Medium', count:  {{summary['MEDIUM'] if summary['MEDIUM'] else 0}} },
-    { type: 'Low', count: {{summary['LOW'] if summary['LOW'] else 0}} }
+    { type: 'Critical', count: {{security_summary['CRITICAL'] if security_summary['CRITICAL'] else 0}} },
+    { type: 'High', count:  {{security_summary['HIGH'] if security_summary['HIGH'] else 0}} },
+    { type: 'Medium', count:  {{security_summary['MEDIUM'] if security_summary['MEDIUM'] else 0}} },
+    { type: 'Low', count: {{security_summary['LOW'] if security_summary['LOW'] else 0}} }
   ];
 
   new Chart(
@@ -74,6 +83,57 @@
     }
   );
 })();
+//incident-summary
 
+(async function() {
+  const data = [
+    { type: 'High', count:  {{incident_summary['HIGH'] if incident_summary['HIGH'] else 0}} },
+    { type: 'Medium', count:  {{incident_summary['MEDIUM'] if incident_summary['MEDIUM'] else 0}} },
+    { type: 'Low', count: {{incident_summary['LOW'] if incident_summary['LOW'] else 0}} }
+  ];
+
+  new Chart(
+    document.getElementById('incident-summary'),
+    {
+      type: 'bar',
+      data: {
+        labels: data.map(row => row.type),
+        datasets: [
+          {
+            label: 'Priority',
+            data: data.map(row => row.count),
+            backgroundColor: [
+
+                            'rgba(255, 159, 64, 0.6)',   // HIGH - Orange
+                            'rgba(255, 205, 86, 0.6)',   // MEDIUM - Yellow
+                            'rgba(75, 192, 192, 0.6)',   // LOW - Teal
+
+                        ],
+            borderColor: [
+
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(255, 205, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+
+                        ],
+            borderWidth: 1,
+          }
+        ]
+      },
+      options:{
+            responsive:true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks : {
+                        stepSize: 1 //  Forces steps of 1  so only full intgers
+                    }
+                    }
+            }
+
+        }
+    }
+  );
+})();
 
 {% endblock %}

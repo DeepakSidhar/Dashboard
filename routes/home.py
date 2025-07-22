@@ -2,14 +2,14 @@ from flask import Blueprint, jsonify, render_template, request, session, redirec
 from sqlalchemy import func
 
 from auth import login_required, role_required, login_session_required
-from models import User, db, Vulnerability, Software
+from models import User, db, Vulnerability, Software, IncidentManagement
 
 home_bp = Blueprint('home', __name__)
 
 @home_bp.route('/', methods=['GET' ])
 @login_session_required
 def home():
-    summary = (
+    security_summary = (
         db.session.query(
             Vulnerability.severity,
             func.count(Vulnerability.cve_id)
@@ -23,6 +23,16 @@ def home():
         .group_by(Vulnerability.severity)
         .all()
     )
-    print(summary)
-    print(dict(summary))
-    return render_template('home.html', summary=dict(summary)) #Change the data structure
+
+    incident_summary = (
+        db.session.query(
+            IncidentManagement.priority,
+            func.count(IncidentManagement.id)
+        )
+
+        .group_by(IncidentManagement.priority)
+        .all()
+    )
+    print(incident_summary)
+
+    return render_template('home.html', security_summary=dict(security_summary), incident_summary=dict(incident_summary)) #Change the data structure

@@ -55,7 +55,7 @@
     <label for="priority">Priority</label><br>
     <select class="form-select" aria-label="Priority" id="priority" name="priority">
     <option value="HIGH" {% if incident and incident.priority == 'HIGH' %} selected {% endif %}>High</option>
-    <option value="MEDIUM  {% if incident and incident.priority == 'MEDIUM' %} selected {% endif %} ">Medium</option>
+    <option value="MEDIUM"  {% if incident and incident.priority == 'MEDIUM' %} selected {% endif %} ">Medium</option>
     <option value="LOW  {% if incident and incident.priority == 'LOW' %} selected {% endif %}">Low</option>
     </select>
 
