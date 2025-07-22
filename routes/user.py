@@ -1,10 +1,40 @@
 import datetime
 
+import bcrypt
+import re
 from flask import Blueprint, jsonify, render_template, request, session, redirect, g, abort, url_for
 from auth import login_required, role_required, login_session_required
 from models import User, UserRole, Role, db
 
 user_bp = Blueprint('user', __name__)
+
+def hash_password(plain_password):
+    # The below is generating hashed password using salt, which is encoded with using utf-8.
+    salt = bcrypt.gensalt()
+    hashed = bcrypt.hashpw(plain_password.encode('utf-8'), salt)
+    return hashed.decode('utf-8')
+
+def is_valid_password(plain_password):
+
+    # Must be at least 8 characters
+    if len(plain_password) < 8:
+        return False
+     # Must be at least 1  uppercase
+    if not re.search(r'[A-Z]', plain_password):
+        return False
+    # Must be at least 1 lowercase
+    if not re.search(r'[a-z]', plain_password):
+        return False
+    # Must be at least 1 numer
+    if not re.search(r'[0-9]', plain_password):
+        return False
+    # Must be at least speacial ?=.*!@#$%^&(),:{}|<> character"
+    if not re.search(r'[?=.*!@#$%^&(),:{}|<>]', plain_password):
+        return False
+
+    return True
+
+
 
 @user_bp.route('/', methods=['GET'])
 @login_session_required
@@ -30,8 +60,10 @@ def create_user():
         first_name = request.form['first_name']
         last_name = request.form['last_name']
         password = request.form['password']
-
         role_ids = request.form.getlist('roles')
+
+        if not is_valid_password(password):
+            return render_template('create_user.html', roles=roles, error="Must be at least 8 characters and include uppercase, lowercase, number, and special character")
 
         if not role_ids:
             return render_template('create_user.html', roles=roles, error="Select at least one role")
@@ -44,7 +76,7 @@ def create_user():
                     email_text = email,
                     first_name = first_name,
                     last_name = last_name,
-                    password = password,
+                    password = hash_password(password),
                     created_at = datetime.datetime.now(datetime.timezone.utc),
                     updated_at =datetime.datetime.now(datetime.timezone.utc),
                 )
@@ -80,8 +112,10 @@ def edit_user(user_id):
         first_name = request.form['first_name']
         last_name = request.form['last_name']
         password = request.form['password']
-
         role_ids = request.form.getlist('roles')
+
+        if not is_valid_password(password):
+            return render_template('create_user.html', user=user, roles=roles, error="Must be at least 8 characters and include uppercase, lowercase, number, and special character")
 
         if not role_ids:
             return render_template('create_user.html', user=user, roles=roles, error="Select at least one role")
@@ -94,7 +128,7 @@ def edit_user(user_id):
                 user.email = email
                 user.first_name = first_name
                 user.last_name = last_name
-                user.password = password
+                user.password = hash_password(password),
                 user.updated_at = datetime.datetime.now(datetime.timezone.utc)
 
                 #update user role
@@ -104,7 +138,7 @@ def edit_user(user_id):
                     user_role = UserRole(user_id = user.id, role_id=int(role_id))
                     db.session.add(user_role)
 
-                db.session.commit() # gets user.id
+                db.session.commit()
 
                 return redirect(url_for('user.user_list'))
 

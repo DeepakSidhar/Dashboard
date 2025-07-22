@@ -1,3 +1,4 @@
+import bcrypt
 from flask import Blueprint, jsonify, render_template, request, session, redirect, url_for
 from auth import login_required, role_required
 from models import User
@@ -9,9 +10,14 @@ def login():
     error = None # Variable created for the scope of Login function.
     if request.method =='POST':
         username = request.form['username']
-        password = request.form['password']
+        plaintext_password = request.form['password'] # Plain Text
 
-        user = User.query.filter_by(username=username, password=password).first()
+
+        user = User.query.filter_by(username=username).first()
+
+        if not bcrypt.checkpw(plaintext_password.encode('utf-8'), user.password.encode('utf-8')):
+            return render_template('login.html', error='invalid username or password')
+
 
         if user:
             # TODO:redirect the user to dashboard
