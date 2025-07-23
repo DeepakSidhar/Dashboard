@@ -20,12 +20,12 @@ def login():
 
 
         if user:
-            # TODO:redirect the user to dashboard
+            # Set the session  successfully logged in
             session['user'] = user.to_dict()
-            # TODO:Set the session  successfully logged in
+            # nredirect the user to dashboard
             return redirect(url_for('home.home'))  # need to change to the dashboard change
         else:
-            # TODO:handle  authentication  failure
+            # handle  authentication  failure
             error = 'Invalid user name of password'
 
     return render_template('login.html', error=error)
@@ -33,5 +33,5 @@ def login():
 
 @authentication_bp.route('/logout', methods=['GET'])
 def logout():
-    session.clear() #clear session
-    return render_template('login.html')
+    session.clear() #clear session cookie
+    return redirect(url_for('authentication.login'))
