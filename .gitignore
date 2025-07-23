@@ -1,3 +1,3 @@
 .venv
 .idea
-.cve-scanner/.venv-cve-scaner
+cve-scanner/.venv-cve-scaner
