@@ -118,16 +118,6 @@ def login_session_required(f):
         # String : ACTION_ITEM
         g.permissions = [pid for (pid,) in permission]
         print(f" FLATTEREENTED  permission {g.permissions}")
-        """
-           
-            [
-            'VIEW_CHANGE',
-            'VIEW_INCIDENTS',
-            'VIEW_PROBLEMS',
-            'VIEW_SECURITY',
-            'VIEW_ADMIN',
 
-        ]
-         """
         return f(*args, **kwargs)
     return decorated_function
