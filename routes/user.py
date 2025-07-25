@@ -3,7 +3,8 @@ import datetime
 import bcrypt
 import re
 from flask import Blueprint, jsonify, render_template, request, session, redirect, g, abort, url_for
-from auth import login_required, role_required, login_session_required
+from auth import login_session_required
+from logger import logger
 from models import User, UserRole, Role, db
 
 user_bp = Blueprint('user', __name__)
@@ -90,7 +91,7 @@ def create_user():
                 return redirect(url_for('user.user_list'))
         except Exception as e:
             db.session.rollback()
-            print(e)
+            logger.error(e)
 
 
 
@@ -144,8 +145,8 @@ def edit_user(user_id):
 
         except Exception as e:
             db.session.rollback()
-            print('Could not find the user ' + str(user_id))
-            print(e)
+            logger.error('Could not find the user ' + str(user_id))
+            logger.error(e)
 # if  using get it wil drop to this section
     return render_template('create_user.html',user=user, roles=roles)
 

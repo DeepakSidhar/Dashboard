@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, render_template, request, session, redirect, g
 from sqlalchemy import func
 
-from auth import login_required, role_required, login_session_required
+from auth import login_session_required
 from models import User, db, Vulnerability, Software, IncidentManagement
 
 home_bp = Blueprint('home', __name__)
@@ -33,6 +33,5 @@ def home():
         .group_by(IncidentManagement.priority)
         .all()
     )
-    print(incident_summary)
 
     return render_template('home.html', security_summary=dict(security_summary), incident_summary=dict(incident_summary)) #Change the data structure

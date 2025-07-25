@@ -1,6 +1,7 @@
 import bcrypt
-from flask import Blueprint, jsonify, render_template, request, session, redirect, url_for
-from auth import login_required, role_required
+from flask import Blueprint, render_template, request, session, redirect, url_for
+
+from logger import logger
 from models import User
 
 authentication_bp = Blueprint('authentication', __name__)
@@ -27,6 +28,7 @@ def login():
         else:
             # handle  authentication  failure
             error = 'Invalid user name of password'
+            logger.info(f"Invalid user name or password: {username}")
 
     return render_template('login.html', error=error)
 

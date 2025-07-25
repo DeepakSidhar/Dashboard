@@ -3,6 +3,7 @@ import datetime
 from flask import Blueprint,  render_template, request,  redirect, g, abort, url_for
 from auth import login_session_required
 from models import Role, db, Permission, RolePermission
+from logger import logger
 
 role_bp = Blueprint('role', __name__)
 
@@ -56,7 +57,7 @@ def create_role():
                 return redirect(url_for('role.role_list'))
         except Exception as e:
             db.session.rollback()
-            print(e)
+            logger.error(e)
 
 
 
@@ -112,8 +113,8 @@ def edit_role(role_id):
                 return redirect(url_for('role.role_list'))
         except Exception as e:
             db.session.rollback()
-            print('Could not find the role ' + str(role_id))
-            print(e)
+            logger.error('Could not find the role ' + str(role_id))
+            logger.error(e)
 # if using get it wil drop to this section
     return render_template('create_role.html',
                            role=role,

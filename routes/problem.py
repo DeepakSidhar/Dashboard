@@ -2,6 +2,7 @@ import datetime
 
 from flask import Blueprint,  render_template, request,  redirect, g, abort, url_for
 from auth import login_session_required
+from logger import logger
 from models import ProblemManagement, db, IncidentManagement
 
 problem_bp = Blueprint('problem', __name__)
@@ -65,7 +66,7 @@ def create_problem():
                 return redirect(url_for('problem.problem_list'))
         except Exception as e:
             db.session.rollback()
-            print(e)
+            logger.error(e)
 
 
 

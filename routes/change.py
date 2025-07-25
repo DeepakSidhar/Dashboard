@@ -2,6 +2,7 @@ import datetime
 
 from flask import Blueprint,  render_template, request,  redirect, g, abort, url_for
 from auth import login_session_required
+from logger import logger
 from models import  db, ChangeManagement
 
 change_bp = Blueprint('change', __name__)
@@ -62,7 +63,7 @@ def create_change():
                 return redirect(url_for('change.change_list'))
         except Exception as e:
             db.session.rollback()
-            print(e)
+            logger.error(e)
 
 
 

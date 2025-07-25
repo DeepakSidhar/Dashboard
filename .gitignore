@@ -1,3 +1,4 @@
 .venv
 .idea
 cve-scanner/.venv-cve-scaner
+*.log

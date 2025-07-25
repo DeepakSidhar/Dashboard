@@ -2,6 +2,7 @@ import datetime
 
 from flask import Blueprint,  render_template, request,  redirect, g, abort, url_for
 from auth import login_session_required
+from logger import logger
 from models import db, IncidentManagement, User, Hardware, Software, Vulnerability
 
 incident_bp = Blueprint('incident', __name__)
@@ -166,8 +167,7 @@ def edit_incident(incident_id):
 
         except Exception as e:
             db.session.rollback()
-            print('Could not find the incident ' + str(incident_id))
-            print(e)
+            logger.error(f'Could not find the incident ' + str(incident_id))
 
     users = User.query.all()
     hardware_list = Hardware.query.all()
