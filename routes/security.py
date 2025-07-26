@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, abort, g
+from flask import Blueprint, render_template, abort, g, request
 from auth import login_session_required
 from models import db, Software, Hardware, Vulnerability, IncidentManagement
 
@@ -6,11 +6,14 @@ security_bp = Blueprint('security', __name__)
 
 @security_bp.route('/', methods=['GET'])
 @login_session_required
-def vulnerabilty_list():
+def vulnerability_list():
     if 'VIEW_SECURITY' not in g.permissions:
         return abort(403)
 # Joining the Software- Hardware and Vulnerabilty table
-    results = (
+    search = request.args.get('search')
+    severity = request.args.get('severity')
+
+    base_query = (
         db.session.query(Software, Hardware, Vulnerability, IncidentManagement)
         .join(
             Vulnerability,
@@ -26,6 +29,17 @@ def vulnerabilty_list():
             IncidentManagement,
             IncidentManagement.cve_id == Vulnerability.cve_id
         )
+
+    )
+
+    if search:
+        base_query = base_query.filter(Vulnerability.product.ilike(f'%{search}%')) # ilike ignore the case the % is a wild card before and after.  This search can be incresed to use OR  if more  fields are needed
+
+    if severity:
+        base_query = base_query.filter(Vulnerability.severity == severity) # search by severity
+
+    results = (
+        base_query
         .order_by(
             db.case(
 

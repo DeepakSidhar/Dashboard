@@ -21,7 +21,7 @@ migrate = Migrate(app, db) #Migration script to implement sql  tables
 register_routes(app)
 #Filters  jinja filters for serverity for error codes
 register_filters(app)
-
+#Create a logging
 setup_logging(app)
 
 

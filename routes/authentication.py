@@ -1,11 +1,9 @@
-import bcrypt
+import bcrypt#(Bodnar, 2024)
 from flask import Blueprint, render_template, request, session, redirect, url_for
-
 from logger import logger
 from models import User
 
 authentication_bp = Blueprint('authentication', __name__)
-
 @authentication_bp.route('/login', methods=['GET' ,'POST']) # post allows to receive  from the front end
 def login():
     error = None # Variable created for the scope of Login function.

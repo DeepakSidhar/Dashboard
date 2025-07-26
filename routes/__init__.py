@@ -7,8 +7,8 @@ from .incident import incident_bp
 from .change import change_bp
 from.security import security_bp
 def register_routes(app):
-    app.register_blueprint(authentication_bp)
-    app.register_blueprint(home_bp)
+    app.register_blueprint(authentication_bp) #/login
+    app.register_blueprint(home_bp)#default
     app.register_blueprint(user_bp, url_prefix='/admin/user')
     app.register_blueprint(role_bp, url_prefix='/admin/role')
     app.register_blueprint(problem_bp, url_prefix='/problem')

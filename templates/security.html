@@ -1,7 +1,28 @@
 {% extends 'layout.html' %}
 
 {% block main %}
-    <h1>Security</h1>
+<h1 class="my-5">Security</h1>
+<form method="get" class="row my-4">
+<div class="col-md-4">
+    <input type="text" name="search" class="form-control" placeholder="Search for products.." value="{{request.args.get('search', '')}}">
+</div>
+<div class="col-md-4">
+    <select class="form-select" name="severity">
+      <option selected disabled> Filter severity</option>
+        <option value="CRITICAL" {% if request.args.get('severity') == 'CRITICAL' %} selected {% endif %}>CRITICAL</option>
+        <option value="HIGH" {% if request.args.get('severity') == 'HIGH' %} selected {% endif %}>HIGH</option>
+        <option value="MEDIUM" {% if request.args.get('severity') == 'MEDIUM' %} selected {% endif %}>MEDIUM</option>
+        <option value="LOW" {% if request.args.get('severity') == 'LOW' %} selected {% endif %}>LOW</option>
+    </select>
+</div>
+
+<div class="col-md-4">
+    <button type="submit" class="btn btn-secondary">Search</button>
+    <a href="{{url_for('security.vulnerability_list')}}" type="button" class="btn btn-outline-secondary">Clear</a>
+
+</div>
+</form>
+
 <table class="table">
     <thead>
     <tr>

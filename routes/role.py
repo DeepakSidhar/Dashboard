@@ -1,5 +1,4 @@
 import datetime
-
 from flask import Blueprint,  render_template, request,  redirect, g, abort, url_for
 from auth import login_session_required
 from models import Role, db, Permission, RolePermission
@@ -15,9 +14,7 @@ def role_list():
 
     roles  = Role.query.all()
 
-
     return render_template('role_list.html', roles=roles, selected_permission=[])
-
 
 @role_bp.route('/create', methods=['GET', 'POST'])
 @login_session_required

@@ -1,8 +1,7 @@
 import datetime
-
-import bcrypt
-import re
-from flask import Blueprint, jsonify, render_template, request, session, redirect, g, abort, url_for
+import bcrypt#(Bodnar, 2024)
+import re#(Python, 2009)
+from flask import Blueprint,  render_template, request,  redirect, g, abort, url_for
 from auth import login_session_required
 from logger import logger
 from models import User, UserRole, Role, db
@@ -62,13 +61,10 @@ def create_user():
         last_name = request.form['last_name']
         password = request.form['password']
         role_ids = request.form.getlist('roles')
-
         if not is_valid_password(password):
             return render_template('create_user.html', roles=roles, error="Must be at least 8 characters and include uppercase, lowercase, number, and special character")
-
         if not role_ids:
             return render_template('create_user.html', roles=roles, error="Select at least one role")
-
         # DB transaction
         try:
             with db.session.begin(nested=True):
@@ -82,8 +78,7 @@ def create_user():
                     updated_at =datetime.datetime.now(datetime.timezone.utc),
                 )
                 db.session.add(user)
-                db.session.flush() # gets user.id
-
+                db.session.flush()
                 for role_id in role_ids:
                     user_role = UserRole(user_id = user.id, role_id=int(role_id))
                     db.session.add(user_role)
@@ -92,12 +87,6 @@ def create_user():
         except Exception as e:
             db.session.rollback()
             logger.error(e)
-
-
-
-
-
-
     return render_template('create_user.html', roles=roles)
 
 @user_bp.route('/<int:user_id>/edit', methods=['GET', 'POST'])

@@ -4,8 +4,9 @@
     <meta charset="UTF=8">
     <title>Dashboard</title>
 
+   <!--css style sheet import from bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous"> <!--css style sheet import from bootstrap-->
 
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
@@ -13,9 +14,11 @@
 
     {% block body %}{% endblock %}
 
+    <!--jave script import from bootstrap-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script> <!--jave script import from bootstrap-->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"  crossorigin="anonymous"></script> <!--chart.js import from CDNJS-->
+    <!--chart.js import from CDNJS-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"  crossorigin="anonymous"></script>
     <script>
     {% block script %}{% endblock %}
     </script>
