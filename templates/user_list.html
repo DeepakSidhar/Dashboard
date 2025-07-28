@@ -1,5 +1,4 @@
 {% extends 'layout.html' %}
-
 {% block main %}
 <h1> ADMIN Home!</h1>
 <a class="btn btn-primary my-3" href="{{url_for('user.create_user') }}" role="button">Create User</a>
@@ -14,12 +13,10 @@
       <th scope="col">Role</th>
         <th scope="col">Actions</th>
 
-
     </tr>
     </thead>
     <tbody>
     {% for user in users %}
-
     <tr>
         <th scope="row">{{user.id}}</th>
         <td>{{user.username}}</td>
@@ -29,22 +26,16 @@
       <td>{{user.roles | map(attribute='name') | join(', ') }}</td>
         <td>
             <a href="{{ url_for('user.edit_user', user_id=user.id) }}" type="button" class="btn btn-secondary btn-sm">Edit</a>
-
-
             <form method="post" action="{{ url_for('user.delete_user', user_id=user.id)}}" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete')">
                 <button type="submit" class="btn btn-danger btn-sm">Delete</button>
             </form>
-
         </td>
     </tr>
     {% else %}
     <tr>
-
         <td colspan="7" class=text-center> No users Found</td>
-
     </tr>
     {% endfor %}
-
 
     </tbody>
 </table>
