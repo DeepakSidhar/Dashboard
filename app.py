@@ -7,6 +7,8 @@ from filters import register_filters
 from logger import setup_logging
 from models import db
 from routes import register_routes
+from audit import run_pip_audit # checking if any vulnerabilitues in the system
+
 
 
 
@@ -26,4 +28,5 @@ setup_logging(app)
 
 
 if __name__ == '__main__' :
+    run_pip_audit()
     app.run()
