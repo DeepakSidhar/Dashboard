@@ -34,8 +34,6 @@ def is_valid_password(plain_password):
 
     return True
 
-
-
 @user_bp.route('/', methods=['GET'])
 @login_session_required
 def user_list():

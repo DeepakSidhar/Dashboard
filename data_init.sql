@@ -43,3 +43,13 @@ INSERT INTO public.role_permission(
 	 (9997, NOW(),NOW(), 9999),
 	 (9996, NOW(),NOW(), 9999),
 	 (9995, NOW(),NOW(), 9999);
+
+INSERT INTO public.permission(
+	id, name, description, created_at, updated_at)
+	VALUES
+	(9994, 'POST_DUMMY_DATA', 'POST_DUMMY_DATA  ', NOW(), NOW());
+
+INSERT INTO public.role_permission(
+	permission_id, created_at, updated_at, role_id)
+	 VALUES
+	 (9994, NOW(),NOW(), 9999);

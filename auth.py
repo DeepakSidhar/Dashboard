@@ -1,4 +1,4 @@
-from models import RolePermission, Permission, UserRole# This is importing the user.py User class to get the user table
+from models import RolePermission, Permission, UserRole
 from logger import logger
 
 #https://developer.atlassian.com/cloud/jira/platform/basic-auth-for-rest-apis/
@@ -23,7 +23,7 @@ def login_session_required(f):
             .join(UserRole, RolePermission.role_id == UserRole.role_id)
             .filter(UserRole.user_id == user['id'])
         )
-        # String : ACTION_ITEM
+        # Flatten the result
         g.permissions = [pid for (pid,) in permission]
         logger.info(f"User {user['id']} has permission {g.permissions}")
 
