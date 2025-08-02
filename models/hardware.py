@@ -3,7 +3,7 @@ import datetime
 
 class Hardware(db.Model): # user class is a subclass of  db.Model
     __tablename__ = 'hardware'  # optional this is to id the table
-    id = db.Column(db.Integer, primary_key=True)# needs to e a forgnn key TODO
+    id = db.Column(db.Integer, primary_key=True)# needs to e a forgnn key
     name = db.Column(db.String(80), unique=True, nullable=False)
     type = db.Column(db.String(120), nullable=False)
     manufacturer = db.Column(db.String(80),  nullable=False)

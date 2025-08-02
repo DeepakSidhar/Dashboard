@@ -5,7 +5,7 @@ class IncidentManagement(db.Model): # user class is a subclass of  db.Model
     __tablename__ = 'incident_management'  # optional this is to id the table
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80), nullable=False)
-    description = db.Column(db.String(120),  nullable=False)
+    description = db.Column(db.String(1020),  nullable=False)
     status = db.Column(db.String(50), nullable=False)
     priority = db.Column(db.String(10), nullable=False)
     impact = db.Column(db.String(80),  nullable=False)

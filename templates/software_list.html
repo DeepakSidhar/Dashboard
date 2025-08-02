@@ -1,0 +1,51 @@
+{% extends 'layout.html' %}
+
+{% block main %}
+<h1>SOFTWARE!</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Version</th>
+        <th scope="col">Vendor</th>
+        <th scope="col">Hardware</th>
+        <th scope="col">Status</th>
+        <th scope="col">Installation Date</th>
+        <th scope="col">licence Expiry Date</th>
+        <th scope="col">Created Date</th>
+        <th scope="col">Up Dated</th>
+
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for software in softwares %}
+
+    <tr>
+        <th scope="row">{{software.id}}</th>
+        <td>{{software.name}}</td>
+        <td>{{software.version}}</td>
+        <td>{{software.vendor}}</td>
+        <td>{{software.hardware.name}}</td>
+        <td>{{software.status}}</td>
+        <td>{{software.installation_date}}</td>
+        <td>{{software.licence_expiry_date}}</td>
+        <td>{{software.created_at}}</td>
+        <td>{{software.updated_at}}</td>
+        
+    </tr>
+    {% else %}
+    <tr>
+
+        <td colspan="13" class=text-center> No software Found</td>
+
+    </tr>
+    {% endfor %}
+
+
+    </tbody>
+</table>
+
+{% endblock %}

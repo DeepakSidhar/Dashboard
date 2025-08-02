@@ -14,18 +14,18 @@ def vulnerability_list():
     severity = request.args.get('severity')
 
     base_query = (
-        db.session.query(Software, Hardware, Vulnerability, IncidentManagement)
+        db.session.query(Software, Hardware, Vulnerability, IncidentManagement) # The tables to be joined
         .join(
-            Vulnerability,
-            (Software.name == Vulnerability.product) &
+            Vulnerability, # vulnerability
+            (Software.name == Vulnerability.product) & # software name - vul prod
             (Software.vendor == Vulnerability.vendor) &
             (Software.version == Vulnerability.version)
         )
         .join(
-            Hardware,
-            Hardware.id == Software.hardware_id
+            Hardware,  # hardware
+            Hardware.id == Software.hardware_id #  joining the forign key
         )
-        .outerjoin(
+        .outerjoin( # All incidents to be displayed
             IncidentManagement,
             IncidentManagement.cve_id == Vulnerability.cve_id
         )

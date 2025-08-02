@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}
+
+{% block main %}
+<h1>HARDWARE!</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Type</th>
+        <th scope="col">Manufacturer</th>
+        <th scope="col">Model</th>
+        <th scope="col">Location</th>
+        <th scope="col">Status</th>
+        <th scope="col">Purchase Date</th>
+        <th scope="col">Up Dated</th>
+        <th scope="col">Created Date</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for hardware in hardwares %}
+
+    <tr>
+        <th scope="row">{{hardware.id}}</th>
+        <td>{{hardware.name}}</td>
+        <td>{{hardware.type}}</td>
+        <td>{{hardware.manufacturer}}</td>
+        <td>{{hardware.model}}</td>
+        <td>{{hardware.location}}</td>
+        <td>{{hardware.status}}</td>
+        <td>{{hardware.purchase_date}}</td>
+        <td>{{hardware.updated_at}}</td>
+        <td>{{hardware.created_at}}</td>
+
+    </tr>
+    {% else %}
+    <tr>
+
+        <td colspan="13" class=text-center> No hardware Found</td>
+
+    </tr>
+    {% endfor %}
+
+
+    </tbody>
+</table>
+
+{% endblock %}

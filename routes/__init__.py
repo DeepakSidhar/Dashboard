@@ -1,5 +1,7 @@
 from .authentication import authentication_bp
+from .hardware import hardware_bp
 from .home import home_bp
+from .software import software_bp
 from .user import user_bp
 from .role import role_bp
 from .problem import problem_bp
@@ -16,5 +18,9 @@ def register_routes(app):
     app.register_blueprint(incident_bp, url_prefix='/incident')
     app.register_blueprint(change_bp, url_prefix='/change')
     app.register_blueprint(security_bp, url_prefix='/security')
-    app.register_blueprint(api_bp, url_prefix='/api/v1')
+    app.register_blueprint(hardware_bp, url_prefix='/hardware')
+    app.register_blueprint(software_bp, url_prefix='/software')
+
+    # API connection
+    app.register_blueprint(api_bp, url_prefix='/api/v1') # response in JSON
 
