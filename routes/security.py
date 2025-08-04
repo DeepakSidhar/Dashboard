@@ -12,14 +12,17 @@ def vulnerability_list():
 # Joining the Software- Hardware and Vulnerabilty table
     search = request.args.get('search')
     severity = request.args.get('severity')
-
     base_query = (
         db.session.query(Software, Hardware, Vulnerability, IncidentManagement) # The tables to be joined
         .join(
             Vulnerability, # vulnerability
             (Software.name == Vulnerability.product) & # software name - vul prod
-            (Software.vendor == Vulnerability.vendor) &
-            (Software.version == Vulnerability.version)
+            (Software.vendor == Vulnerability.vendor) &# software vendor - vul vendor
+            (
+                    (Software.version == Vulnerability.version) | # serching on version
+                    (Vulnerability.version == '*') | # searching on *
+                    (Vulnerability.version == '-') # searching on -
+            )
         )
         .join(
             Hardware,  # hardware
@@ -29,20 +32,15 @@ def vulnerability_list():
             IncidentManagement,
             IncidentManagement.cve_id == Vulnerability.cve_id
         )
-
     )
-
     if search:
         base_query = base_query.filter(Vulnerability.product.ilike(f'%{search}%')) # ilike ignore the case the % is a wild card before and after.  This search can be incresed to use OR  if more  fields are needed
-
     if severity:
         base_query = base_query.filter(Vulnerability.severity == severity) # search by severity
-
     results = (
         base_query
         .order_by(
             db.case(
-
                     (Vulnerability.severity == 'CRITICAL', 1),
                     (Vulnerability.severity == 'HIGH', 2),
                     (Vulnerability.severity == 'MEDIUM', 3),
@@ -51,8 +49,6 @@ def vulnerability_list():
             )
         )
         .all()
-
     )
-
     return render_template('security.html', results=results)
 

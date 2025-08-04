@@ -18,7 +18,11 @@ def home():
             Software,
             (Software.name == Vulnerability.product) &
             (Software.vendor == Vulnerability.vendor) &
-            (Software.version == Vulnerability.version)
+            (
+                (Software.version == Vulnerability.version)  |
+                (Vulnerability.version == '*') |
+                (Vulnerability.version == '-')
+            )
         )
         .group_by(Vulnerability.severity)
         .all()

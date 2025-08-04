@@ -27,19 +27,15 @@ def dummy_data():
             type = f"Server",
             manufacturer = f"manufacturer",
             model = f"Server-{i}",
-            location = f"HK",
+            location = f"UK",
             status = "Valid"
           )
         for i in range(1, 11)
-
     ]
-
     db.session.add_all(hardwares)
-
     #Random softwares
     softwares = [
        Software(
-
            name = f"App {i}",
            version =f'1.{i}.25',
            vendor = f"Vendor {i}",
@@ -49,13 +45,11 @@ def dummy_data():
            licence_expiry_date = datetime.date(year=2025+i, month=i, day=1*3)
         )
         for i in range(1, 11)
-
     ]
     db.session.add_all(softwares)
-
     vulnerabilities = (
         db.session.query(Vulnerability)
-        .filter(Vulnerability.version !='*') #TODO  we need to consider *
+        .filter((Vulnerability.version !='*') & (Vulnerability.version !='-')) # getting everything except * and -
         .order_by(func.random()) # Random function to get the data
         .all()
     )
@@ -69,9 +63,15 @@ def dummy_data():
             installation_date=datetime.date(year=2024, month=i, day=1 * 3),
             licence_expiry_date=datetime.date(year=2025 + i, month=i, day=1 * 3)
         )
-        for i in range(1, 11)
 
+        for i in range(1, 11)
     ]
+
+    for i in range(len (vulnerable_softwares)):
+        logger.info(vulnerable_softwares[i])
+
+
+
     db.session.add_all(vulnerable_softwares)
     db.session.commit()
 

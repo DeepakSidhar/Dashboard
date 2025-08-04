@@ -30,7 +30,6 @@ def incident_list():
 def create_incident():
     if 'VIEW_INCIDENTS' not in g.permissions:
         return abort(403)
-
     if request.method == 'POST':
         title = request.form['title']
         description = request.form['description']
@@ -46,18 +45,13 @@ def create_incident():
         #this is resolving the problem  of an empty string. when resolved time is blanks.
         if resolved_time == "":
             resolved_time = None
-
         hardware_id = None
         software_id = None
-
         hardware_software_type, hardware_software_id = hardware_software.split(":")
         if hardware_software_type == "SOFTWARE":
             software_id = hardware_software_id
         else :
             hardware_id = hardware_software_id
-
-
-
         # DB transaction
         try:
             with db.session.begin(nested=True):
@@ -78,7 +72,6 @@ def create_incident():
                     cve_id=cve_id,
                 )
                 db.session.add(incident)
-
                 db.session.commit()
                 return redirect(url_for('incident.incident_list'))
         except Exception as e:
